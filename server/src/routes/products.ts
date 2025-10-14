@@ -28,7 +28,7 @@ router.get('/', async (req: AuthRequest, res: Response) => {
     }
 
     const products = await Product.find(query)
-      .populate('seller', 'name rating')
+      .populate('seller', 'firstName lastName rating')
       .sort({ createdAt: -1 });
 
     res.json(products);
@@ -41,7 +41,7 @@ router.get('/', async (req: AuthRequest, res: Response) => {
 router.get('/:id', async (req: AuthRequest, res: Response) => {
   try {
     const product = await Product.findById(req.params.id)
-      .populate('seller', 'name email phone rating totalTransactions');
+      .populate('seller', 'firstname lastName email phone rating totalTransactions');
 
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
@@ -50,7 +50,7 @@ router.get('/:id', async (req: AuthRequest, res: Response) => {
     // Get bid history
     const Bid = mongoose.model('Bid');
     const bids = await Bid.find({ product: product._id })
-      .populate('bidder', 'name')
+      .populate('bidder', 'firstName lastName')
       .sort({ createdAt: -1 })
       .limit(10);
 
@@ -109,7 +109,7 @@ router.post(
       });
 
       await product.save();
-      await product.populate('seller', 'name rating');
+      await product.populate('seller', 'firstName lastName rating');
 
       res.status(201).json(product);
     } catch (error) {

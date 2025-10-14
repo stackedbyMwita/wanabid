@@ -12,7 +12,8 @@ router.post(
   [
     body('email').isEmail(),
     body('password').isLength({ min: 6 }),
-    body('name').notEmpty(),
+    body('firstName').notEmpty(),
+    body('lastName').notEmpty(),
     body('phone').notEmpty(),
     body('userType').isIn(['seller', 'buyer'])
   ],
@@ -23,7 +24,7 @@ router.post(
         return res.status(400).json({ errors: errors.array() });
       }
 
-      const { name, email, password, phone, userType } = req.body;
+      const { firstName, lastName, email, password, phone, userType } = req.body;
 
       const existingUser = await User.findOne({ email });
       if (existingUser) {
@@ -33,7 +34,8 @@ router.post(
       const hashedPassword = await bcrypt.hash(password, 12);
 
       const user = new User({
-        name,
+        firstName,
+        lastName,
         email,
         password: hashedPassword,
         phone,
@@ -52,7 +54,8 @@ router.post(
         token,
         user: {
           id: user._id,
-          name: user.name,
+          firstName: user.firstName,
+          lastName: user.lastName,
           email: user.email,
           userType: user.userType
         }
@@ -96,7 +99,8 @@ router.post(
         token,
         user: {
           id: user._id,
-          name: user.name,
+          firstName: user.firstName,
+          lastName: user.lastName,
           email: user.email,
           userType: user.userType
         }
