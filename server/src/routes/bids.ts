@@ -82,6 +82,7 @@ router.post(
         bid,
         product: {
           id: product._id,
+          name: product.title,
           currentBid: product.currentBid
         }
       });

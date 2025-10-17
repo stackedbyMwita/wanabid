@@ -5,6 +5,7 @@ import connectDB from './config/db';
 import authRoutes from './routes/auth';
 import productRoutes from './routes/products';
 import bidRoutes from './routes/bids';
+import transactionRoutes from './routes/transactions';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ connectDB();
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/bids', bidRoutes);
+app.use('/api/transactions', transactionRoutes);
 
 // Health Check
 app.get('/api/health', (req, res) => {
