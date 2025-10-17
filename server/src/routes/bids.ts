@@ -2,10 +2,8 @@ import express, { Response } from 'express';
 import { body, validationResult } from 'express-validator';
 import Bid from '../models/Bid';
 import Product from '../models/Product';
-import User from '../models/User';
 import Transaction from '../models/Transaction';
 import { auth, AuthRequest } from '../middleware/auth';
-import mongoose from 'mongoose';
 
 const router = express.Router();
 
