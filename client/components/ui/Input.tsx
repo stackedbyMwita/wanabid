@@ -1,5 +1,9 @@
+'use client';
+
 import { cn } from "@/lib/utils";
-import { InputHTMLAttributes, forwardRef } from "react";
+import { InputHTMLAttributes, forwardRef, useState } from "react";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -8,6 +12,9 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ className, label, error, type = "text", ...props }, ref) => {
+
+    const [showPass, setShowPass] = useState(false);
+    const inputType = type === "password" ? (showPass ? "text" : "password") : type;
     return (
       <div className="w-full">
         {label && (
@@ -15,16 +22,30 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             {label}
           </label>
         )}
-        <input
-          type={type}
+        <div className="relative">
+          <input
+          type={inputType}
           ref={ref}
           className={cn(
-            "w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition",
+            "w-full px-4 py-2 border rounded-lg text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition",
             error ? "border-red-500" : "border-gray-300",
             className
           )}
           {...props}
         />
+        {
+          type === "password" && (
+            <button
+            type="button"
+            onClick={() => setShowPass((prev) => !prev)}
+            className="absolute px-4 cursor-pointer inset-y-0 right-0 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none"
+            tabIndex={-1}
+            >
+              {showPass ? <FaEyeSlash /> : <FaEye /> }
+            </button>
+          )
+        }
+        </div>
         {error && (
           <p className="mt-1 text-sm text-red-600">{error}</p>
         )}

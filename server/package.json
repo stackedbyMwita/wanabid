@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "nodemon src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "seed": "ts-node scripts/createTestProduct.ts"
   },
   "keywords": [],
   "author": "",

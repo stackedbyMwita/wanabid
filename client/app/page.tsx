@@ -1,5 +1,8 @@
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
+import { FaShieldAlt } from "react-icons/fa";
+import { TbMoneybag } from "react-icons/tb";
+import { PiGraduationCapBold } from "react-icons/pi";
 
 export default function Home() {
   return (
@@ -21,7 +24,7 @@ export default function Home() {
               </Button>
             </Link>
             <Link href="/products">
-              <Button variant="outline" size="lg">
+              <Button variant="secondary" size="lg">
                 Browse Items
               </Button>
             </Link>
@@ -30,22 +33,28 @@ export default function Home() {
 
         {/* Features */}
         <div className="grid md:grid-cols-3 gap-8 mt-20">
-          <div className="bg-white p-8 rounded-2xl shadow-lg">
-            <div className="text-4xl mb-4">🛡️</div>
+          <div className="bg-white p-8 text-blue-600 rounded-2xl shadow-lg">
+            <div className="text-4xl mb-4">
+              <FaShieldAlt />
+            </div>
             <h3 className="text-xl font-bold mb-2">Secure Escrow</h3>
             <p className="text-gray-600">
               Your money is safe with our escrow system. Payment released only after delivery confirmation.
             </p>
           </div>
-          <div className="bg-white p-8 rounded-2xl shadow-lg">
-            <div className="text-4xl mb-4">💰</div>
+          <div className="bg-white text-amber-500 p-8 rounded-2xl shadow-lg">
+            <div className="text-4xl mb-4">
+              <TbMoneybag />
+            </div>
             <h3 className="text-xl font-bold mb-2">Fair Prices</h3>
             <p className="text-gray-600">
               No greedy brokers. Bid directly with sellers and get the best deals for your budget.
             </p>
           </div>
-          <div className="bg-white p-8 rounded-2xl shadow-lg">
-            <div className="text-4xl mb-4">🎓</div>
+          <div className="bg-white text-gray-600 p-8 rounded-2xl shadow-lg">
+            <div className="text-4xl mb-4">
+              <PiGraduationCapBold />
+            </div>
             <h3 className="text-xl font-bold mb-2">Student-Focused</h3>
             <p className="text-gray-600">
               Built for comrades. We understand your needs.
