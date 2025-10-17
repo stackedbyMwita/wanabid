@@ -15,7 +15,7 @@ router.post(
     body('firstName').notEmpty(),
     body('lastName').notEmpty(),
     body('phone').notEmpty(),
-    body('userType').isIn(['seller', 'buyer'])
+    body('userType').isIn(['seller', 'buyer', 'admin'])
   ],
   async (req: Request, res: Response) => {
     try {
