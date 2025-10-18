@@ -14,6 +14,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const timeRemaining = formatTimeRemaining(product.auctionEndTime);
   const isEnded = timeRemaining === 'Ended';
 
+  // Check if image URL is valid
   const isValidImageUrl = (url: string) => {
     try {
       new URL(url);
@@ -22,9 +23,10 @@ export default function ProductCard({ product }: ProductCardProps) {
       return false;
     }
   };
-
   const hasValidImage =
     product.images && product.images.length > 0 && isValidImageUrl(product.images[0]);
+
+  const sellerName = product.seller?.firstName || 'Unknown Seller';
 
   return (
     <Link href={`/products/${product._id}`}>
@@ -98,7 +100,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             </div>
             <div className="flex items-center gap-2 text-xs text-gray-500">
               <FaUser className="text-gray-400" size={14} />
-              <span className="font-medium">{product.seller.firstName}</span>
+              <span className="font-medium">{sellerName}</span>
             </div>
           </div>
         </div>

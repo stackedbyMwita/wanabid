@@ -8,6 +8,7 @@ import ProductCard from '@/components/products/ProductCard';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import { Smartphone, Armchair, LibraryBig, Shirt, Volleyball, Gift, Gavel, CreditCard, Handshake, Plus } from 'lucide-react';
+import Loader from '@/components/ui/Loader';
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -24,7 +25,7 @@ export default function DashboardPage() {
     try {
       // Load active products
       const products = await productsAPI.getAll();
-      setActiveProducts(products.slice(4, 10)); // Show first 6
+      setActiveProducts(products.slice(0, 6)); // Show first 6
 
       // Load user stats
       if (user?.userType === 'buyer') {
@@ -43,21 +44,17 @@ export default function DashboardPage() {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
-    <div className="pb-20 md:pb-8 pt-4">
+    <div className="pt-4 pb-20">
       {/* Welcome Section */}
-      <div className="bg-gradient-to-r w-full from-blue-600 md:rounded-lg to-indigo-800 text-white p-6 mb-6">
+      <div className="text-gray-900 px-6 py-2 mb-2">
         <h1 className="text-2xl font-bold mb-2 ">
           Welcome back, {user?.firstName}!
         </h1>
-        <p className="text-blue-100">
+        <p className="text-gray-500">
           {user?.userType === 'seller' 
             ? 'Ready to list some items?' 
             : 'Find great deals on second-hand items'}

@@ -7,8 +7,8 @@ import { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "WanaBid - Student Marketplace",
-  description: "Fair bidding platform for Kakamega students",
+  title: "WanaBid - Comrade Marketplace",
+  description: "Fair bidding platform for comrades",
 };
 
 export default function RootLayout({

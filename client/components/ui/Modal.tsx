@@ -4,21 +4,21 @@ import { ReactNode, useEffect } from "react";
 import { X } from "lucide-react";
 
 interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+  isModalOpen: boolean;
+  onModalClose: () => void;
   title?: string;
   children: ReactNode;
 }
 
-export default function Modal({ isOpen, onClose, title, children }: ModalProps) {
+export default function Modal({ isModalOpen, onModalClose, title, children }: ModalProps) {
   // Close on ESC key
   useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const handleEsc = (e: KeyboardEvent) => e.key === "Escape" && onModalClose();
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
-  }, [onClose]);
+  }, [onModalClose]);
 
-  if (!isOpen) return null;
+  if (!isModalOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
@@ -27,7 +27,7 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
         <div className="flex items-center justify-between p-5 border-b">
           <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
           <button
-            onClick={onClose}
+            onClick={onModalClose}
             className="text-gray-500 hover:text-gray-700 transition"
           >
             <X size={22} />

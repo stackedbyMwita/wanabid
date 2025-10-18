@@ -41,7 +41,7 @@ router.get('/', async (req: AuthRequest, res: Response) => {
 router.get('/:id', async (req: AuthRequest, res: Response) => {
   try {
     const product = await Product.findById(req.params.id)
-      .populate('seller', 'firstname lastName email phone rating totalTransactions');
+      .populate('seller', 'firstName lastName email phone rating totalTransactions');
 
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });

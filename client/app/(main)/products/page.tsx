@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { productsAPI } from '@/lib/api';
-import { Product } from '@/types';
 import ProductCard from '@/components/products/ProductCard';
 import Button from '@/components/ui/Button';
-import { Funnel } from 'lucide-react';
+import Modal from '@/components/ui/Modal';
+import { productsAPI } from '@/lib/api';
+import { Product } from '@/types';
+import { Funnel, X } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function ProductsPage() {
   const searchParams = useSearchParams();
@@ -19,7 +20,8 @@ export default function ProductsPage() {
     maxPrice: '',
     search: '',
   });
-  const [showFilters, setShowFilters] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const timesIcon = <X size={12} className='text-blue-600' />;
 
   useEffect(() => {
     loadProducts();
@@ -50,7 +52,7 @@ export default function ProductsPage() {
 
   const applyFilters = () => {
     loadProducts();
-    setShowFilters(false);
+    setIsModalOpen(false);
   };
 
   const clearFilters = () => {
@@ -69,13 +71,13 @@ export default function ProductsPage() {
   return (
     <div className="pb-20 md:pb-8">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-16 z-30 text-gray-900 px-4 py-3">
+      <div className="border-b border-gray-200 z-30 text-gray-900 p-4">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-bold text-gray-900">
             Browse Products
           </h1>
           <button
-            onClick={() => setShowFilters(!showFilters)}
+            onClick={() => setIsModalOpen(!isModalOpen)}
             className="relative px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2"
           >
             <span>
@@ -92,124 +94,103 @@ export default function ProductsPage() {
       </div>
 
       {/* Filter Panel */}
-      {showFilters && (
-        <>
+      {isModalOpen && (
+        <div>
           {/* Backdrop */}
           <div
             className="fixed inset-0 bg-black bg-opacity-50 z-40"
-            onClick={() => setShowFilters(false)}
+            onClick={() => setIsModalOpen(false)}
           />
           
-          Filter Drawer
-          <div className="fixed inset-x-0 top-0 m-8 max-w-4xl mx-auto bg-white rounded-t-3xl z-50 max-h-[80vh] overflow-y-auto">
-            <div className="p-6">
-              {/* Header */}
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-gray-900">Filters</h2>
-                <button
-                  onClick={() => setShowFilters(false)}
-                  className="text-gray-500 text-2xl"
-                >
-                  ✕
-                </button>
-              </div>
+          {/* Filter Drawer */}
+          <Modal isModalOpen={isModalOpen} onModalClose={() => setIsModalOpen(false)} title="Filters">
+            {/* Search */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Search
+              </label>
+              <input
+                type="text"
+                value={filters.search}
+                onChange={(e) => handleFilterChange("search", e.target.value)}
+                placeholder="Search products..."
+                className="text-gray-500 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
 
-              {/* Search */}
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Search
-                </label>
+            {/* Category */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Category
+              </label>
+              <select
+                value={filters.category}
+                onChange={(e) => handleFilterChange("category", e.target.value)}
+                className="text-gray-500 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="">All Categories</option>
+                <option value="Electronics">📱 Electronics</option>
+                <option value="Books">📚 Books</option>
+                <option value="Fashion">👕 Fashion</option>
+                <option value="Furniture">🪑 Furniture</option>
+                <option value="Sports">⚽ Sports</option>
+                <option value="Other">🎁 Other</option>
+              </select>
+            </div>
+
+            {/* Condition */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Condition
+              </label>
+              <select
+                value={filters.condition}
+                onChange={(e) => handleFilterChange("condition", e.target.value)}
+                className="text-gray-500 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="">All Conditions</option>
+                <option value="new">New</option>
+                <option value="like-new">Like New</option>
+                <option value="good">Good</option>
+                <option value="fair">Fair</option>
+                <option value="poor">Poor</option>
+              </select>
+            </div>
+
+            {/* Price Range */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Price Range (KES)
+              </label>
+              <div className="grid grid-cols-2 gap-3">
                 <input
-                  type="text"
-                  value={filters.search}
-                  onChange={(e) => handleFilterChange('search', e.target.value)}
-                  placeholder="Search products..."
-                  className=" w-full text-gray-900 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  type="number"
+                  value={filters.minPrice}
+                  onChange={(e) => handleFilterChange("minPrice", e.target.value)}
+                  placeholder="Min"
+                  className="text-gray-800 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <input
+                  type="number"
+                  value={filters.maxPrice}
+                  onChange={(e) => handleFilterChange("maxPrice", e.target.value)}
+                  placeholder="Max"
+                  className="text-gray-800 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
-
-              {/* Category */}
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Category
-                </label>
-                <select
-                  value={filters.category}
-                  onChange={(e) => handleFilterChange('category', e.target.value)}
-                  className=" w-full text-gray-900 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="">All Categories</option>
-                  <option value="Electronics">📱 Electronics</option>
-                  <option value="Books">📚 Books</option>
-                  <option value="Fashion">👕 Fashion</option>
-                  <option value="Furniture">🪑 Furniture</option>
-                  <option value="Sports">⚽ Sports</option>
-                  <option value="Other">🎁 Other</option>
-                </select>
-              </div>
-
-              {/* Condition */}
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Condition
-                </label>
-                <select
-                  value={filters.condition}
-                  onChange={(e) => handleFilterChange('condition', e.target.value)}
-                  className=" w-full text-gray-900 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="">All Conditions</option>
-                  <option value="new">New</option>
-                  <option value="like-new">Like New</option>
-                  <option value="good">Good</option>
-                  <option value="fair">Fair</option>
-                  <option value="poor">Poor</option>
-                </select>
-              </div>
-
-              {/* Price Range */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Price Range (KES)
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <input
-                    type="number"
-                    value={filters.minPrice}
-                    onChange={(e) => handleFilterChange('minPrice', e.target.value)}
-                    placeholder="Min"
-                    className="text-gray-900 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                  <input
-                    type="number"
-                    value={filters.maxPrice}
-                    onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
-                    placeholder="Max"
-                    className="text-gray-900 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex gap-3">
-                <Button
-                  variant="outline"
-                  onClick={clearFilters}
-                  className="flex-1"
-                >
-                  Clear All
-                </Button>
-                <Button
-                  variant="primary"
-                  onClick={applyFilters}
-                  className="flex-1"
-                >
-                  Apply Filters
-                </Button>
-              </div>
             </div>
-          </div>
-        </>
+
+            {/* Actions */}
+            <div className="flex gap-3">
+              <Button variant="danger" onClick={clearFilters} className="flex-1">
+                Clear All
+              </Button>
+              <Button variant="primary" onClick={applyFilters} className="flex-1">
+                Apply Filters
+              </Button>
+            </div>
+          </Modal>
+        </div>
       )}
 
       {/* Active Filters Tags */}
@@ -222,7 +203,7 @@ export default function ProductsPage() {
                 onClick={() => handleFilterChange('category', '')}
                 className="hover:text-blue-900"
               >
-                ✕
+                {timesIcon}
               </button>
             </span>
           )}
@@ -233,7 +214,7 @@ export default function ProductsPage() {
                 onClick={() => handleFilterChange('condition', '')}
                 className="hover:text-blue-900"
               >
-                ✕
+                {timesIcon}
               </button>
             </span>
           )}
@@ -244,7 +225,7 @@ export default function ProductsPage() {
                 onClick={() => handleFilterChange('search', '')}
                 className="hover:text-blue-900"
               >
-                ✕
+                {timesIcon}
               </button>
             </span>
           )}
