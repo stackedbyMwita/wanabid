@@ -24,7 +24,7 @@ export default function DashboardPage() {
     try {
       // Load active products
       const products = await productsAPI.getAll();
-      setActiveProducts(products.slice(0, 6)); // Show first 6
+      setActiveProducts(products.slice(4, 10)); // Show first 6
 
       // Load user stats
       if (user?.userType === 'buyer') {
@@ -53,7 +53,7 @@ export default function DashboardPage() {
   return (
     <div className="pb-20 md:pb-8 pt-4">
       {/* Welcome Section */}
-      <div className="bg-gradient-to-r w-full from-blue-600 rounded-lg to-indigo-800 text-white p-6 mb-6">
+      <div className="bg-gradient-to-r w-full from-blue-600 md:rounded-lg to-indigo-800 text-white p-6 mb-6">
         <h1 className="text-2xl font-bold mb-2 ">
           Welcome back, {user?.firstName}!
         </h1>
