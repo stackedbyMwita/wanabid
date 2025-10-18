@@ -216,7 +216,7 @@ export default function ProductsPage() {
       {activeFiltersCount > 0 && (
         <div className="text-gray-900 px-4 py-3 flex flex-wrap gap-2">
           {filters.category && (
-            <span className="inline-flex items-center gap-1 text-gray-900 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
+            <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
               {filters.category}
               <button
                 onClick={() => handleFilterChange('category', '')}
@@ -227,7 +227,7 @@ export default function ProductsPage() {
             </span>
           )}
           {filters.condition && (
-            <span className="inline-flex items-center gap-1 text-gray-900 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
+            <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
               {filters.condition}
               <button
                 onClick={() => handleFilterChange('condition', '')}
@@ -238,7 +238,7 @@ export default function ProductsPage() {
             </span>
           )}
           {filters.search && (
-            <span className="inline-flex items-center gap-1 text-gray-900 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
+            <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
               "{filters.search}"
               <button
                 onClick={() => handleFilterChange('search', '')}
