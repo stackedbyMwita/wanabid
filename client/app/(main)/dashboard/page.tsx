@@ -104,7 +104,7 @@ export default function DashboardPage() {
       {/* Categories */}
       <div className="px-4 mb-6">
         <h2 className="text-lg font-bold text-gray-900 mb-3">Browse Categories</h2>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
           {[
             { name: 'Electronics', icon: <Smartphone />, category: 'Electronics' },
             { name: 'Books', icon: <LibraryBig />, category: 'Books' },

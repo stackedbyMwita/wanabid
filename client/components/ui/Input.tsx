@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { InputHTMLAttributes, forwardRef, useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { Search } from 'lucide-react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -45,6 +46,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             </button>
           )
         }
+        {type === "search" && (
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <Search className="w-5 h-5 text-red-600" />
+          </div>
+        )}
         </div>
         {error && (
           <p className="mt-1 text-sm text-red-600">{error}</p>
