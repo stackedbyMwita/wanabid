@@ -218,7 +218,7 @@ export default function PaymentModal({
     <Modal isModalOpen={isModalOpen} onModalClose={handleClose} title="Complete Payment">
       <div className="space-y-6">
         {/* Progress Steps */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex w-full items-center justify-between mb-6">
           {[1, 2, 3, 4].map((s) => (
             <div key={s} className="flex items-center flex-1">
               <div
