@@ -82,21 +82,6 @@ export default function MyBidsPage() {
 
   return (
     <div className="pb-20 md:pb-8">
-      {/* Header */}
-      {/* Back Button */}
-      <div className="z-30 flex items-center gap-4 bg-white border-b border-gray-200 px-4 py-3">
-        <button
-          onClick={() => router.back()}
-          className="flex items-center gap-2 border border-gray-200 p-2 rounded-md  text-gray-600 hover:text-gray-900 hover:bg-gray-100 cursor-pointer"
-        >
-          <span className="">
-            <MoveLeft size={20} />
-          </span>
-          <span>Back</span>
-        </button>
-        <h1 className="text-xl font-bold text-gray-900">My Bids</h1>
-      </div>
-
       {/* Summary Card */}
       {!isLoading && bidGroups.length > 0 && (
         <div className="px-4 py-4">

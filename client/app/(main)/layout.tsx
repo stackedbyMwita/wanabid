@@ -1,5 +1,6 @@
 import ProtectedRoute from '@/components/layout/ProtectedRoute';
 import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import MobileNav from '@/components/layout/MobileNav';
 
 export default function MainLayout({
@@ -15,6 +16,7 @@ export default function MainLayout({
           {children}
         </main>
         <MobileNav />
+        <Footer />
       </div>
     </ProtectedRoute>
   );

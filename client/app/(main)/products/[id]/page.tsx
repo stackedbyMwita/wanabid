@@ -46,7 +46,7 @@ export default function ProductDetailPage() {
       
       // Set initial bid amount (current bid + min increment)
       if (data.product) {
-        setBidAmount(String(data.product.currentBid + 10));
+        setBidAmount(String(data.product.currentBid + 50));
       }
     } catch (error) {
       console.error('Error loading product:', error);
@@ -131,20 +131,7 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="pb-20 md:pb-8">
-      {/* Back Button */}
-      <div className="z-30 bg-white border-b border-gray-200 px-4 py-3">
-        <button
-          onClick={() => router.back()}
-          className="flex items-center gap-2 border border-gray-200 p-2 rounded-md  text-gray-600 hover:text-gray-900 hover:bg-gray-100 cursor-pointer"
-        >
-          <span className="">
-            <MoveLeft size={20} />
-          </span>
-          <span>Back</span>
-        </button>
-      </div>
-
+    <div className="pb-20 bg-white md:pb-8">
       {/* Image Gallery */}
       <div className="bg-gray-200 aspect-square md:aspect-video">
         {product.images && product.images.length > 0 ? (
@@ -199,9 +186,9 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Description */}
-        <div className="mb-6">
+        <div className="mb-6 border border-dashed border-gray-300 bg-gray-50 rounded-lg p-4">
           <h2 className="text-lg font-bold text-gray-900 mb-2">Description</h2>
-          <p className="text-gray-700 whitespace-pre-line">
+          <p className="text-gray-700 text-sm whitespace-pre-line">
             {product.description}
           </p>
         </div>
@@ -227,7 +214,7 @@ export default function ProductDetailPage() {
           
           <div className="flex items-center justify-between text-sm">
             <span className={`font-medium flex gap-2 ${isEnded ? 'text-red-600' : 'text-green-500 '}`}>
-              <Timer size={18} /> {timeRemaining}
+              <Timer size={18} />Ends {timeRemaining}
             </span>
             <span className="flex items-center gap-2 text-green-500 font-semibold">
               <Ticket size={18} /> {bids.length} {bids.length === 1 ? 'bid' : 'bids'}
@@ -306,6 +293,7 @@ export default function ProductDetailPage() {
                 const bidderFirstName = (bid.bidder as any)?.firstName || 'Anonymous';
                 const bidderLastName = (bid.bidder as any)?.lastName || 'Bidder';
                 const bidderInitial = bidderFirstName[0] || 'A';
+                const bidderFullName = `${bidderFirstName} ${bidderLastName}`;
                 
                 return (
                   <div
@@ -320,7 +308,7 @@ export default function ProductDetailPage() {
                       </div>
                       <div>
                         <p className="font-medium text-gray-900">
-                          {bidderFirstName} {bidderLastName}
+                          {bidderFullName}
                           {index === 0 && (
                             <span className="ml-2 text-xs bg-green-600 text-white px-2 py-0.5 rounded-full">
                               {isEnded ? 'Winner' : 'Winning'}

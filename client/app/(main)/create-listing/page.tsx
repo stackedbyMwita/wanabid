@@ -7,7 +7,7 @@ import { productsAPI } from '@/lib/api';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import toast from 'react-hot-toast';
-import { MoveLeft, Smartphone, LibraryBig, Shirt, Armchair, Volleyball, Gift } from 'lucide-react';
+import { MoveLeft, Smartphone, LibraryBig, Shirt, Armchair, Volleyball, Gift, CircleCheckBig } from 'lucide-react';
 
 const CATEGORIES = [
   { name: 'Electronics', icon: <Smartphone />, value: 'Electronics' },
@@ -134,22 +134,11 @@ export default function CreateListingPage() {
       setIsLoading(false);
     }
   };
+  const icon = <CircleCheckBig size={16} className="inline text-blue-600 mr-1" />;
 
   return (
     <div className="pb-10 md:pb-8">
       {/* Back Button */}
-      <div className="flex gap-2 items-center -30 bg-white border-b border-gray-200 px-4 py-3">
-        <button
-          onClick={() => router.back()}
-          className="flex items-center gap-2 border border-gray-200 p-2 rounded-md  text-gray-600 hover:text-gray-900 hover:bg-gray-100 cursor-pointer"
-        >
-          <span className="">
-            <MoveLeft size={20} />
-          </span>
-          <span>Back</span>
-        </button>
-        <h1 className="text-xl font-bold text-gray-900">Create Listing</h1>
-      </div>
       <div className="max-w-2xl bg-white mx-auto px-4 py-6">
         {/* Info Card */}
         <div className="bg-blue-50 border mt-6 border-blue-200 rounded-lg p-4 mb-6">
@@ -157,10 +146,10 @@ export default function CreateListingPage() {
             <div>
               <h3 className="font-semibold text-blue-900 mb-1">Tips for Success</h3>
               <ul className="text-sm text-blue-800 space-y-1">
-                <li>• Use clear, descriptive titles</li>
-                <li>• Add detailed descriptions with condition info</li>
-                <li>• Set competitive starting prices</li>
-                <li>• Add high-quality image URLs</li>
+                <li>{icon} Use clear, descriptive titles</li>
+                <li>{icon} Add detailed descriptions with condition info</li>
+                <li>{icon} Set competitive starting prices</li>
+                <li>{icon} Add high-quality image URLs</li>
               </ul>
             </div>
           </div>
@@ -331,7 +320,7 @@ https://example.com/image2.jpg
 (One URL per line)"
             />
             <p className="mt-1 text-xs text-gray-500">
-              Add image URLs from Imgur, Unsplash, or other image hosting services
+              Add image URLs
             </p>
           </div>
 

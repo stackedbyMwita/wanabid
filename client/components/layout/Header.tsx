@@ -13,6 +13,7 @@ import {
   FaSignOutAlt,
 } from 'react-icons/fa';
 import { Search } from 'lucide-react';
+import BreadCrumb from '../ui/BreadCrumb';
 
 export default function Header() {
   const { user, logout } = useAuth();
@@ -155,6 +156,9 @@ export default function Header() {
             />
           </div>
         }
+      </div>
+      <div className='border-t'>
+        <BreadCrumb />
       </div>
     </header>
   );

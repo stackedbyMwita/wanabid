@@ -54,13 +54,9 @@ export default function MyListingsPage() {
 
   return (
     <div className="pb-20 md:pb-8">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-16 z-30 px-4 py-3">
-        <h1 className="text-xl font-bold text-gray-900">My Listings</h1>
-      </div>
-
       {/* Stats */}
       <div className="px-4 py-4">
+        <h1 className="text-xl font-bold text-gray-900 mb-6">My Listings</h1>
         <div className="grid grid-cols-4 gap-2 mb-4">
           <button
             onClick={() => setFilter('all')}

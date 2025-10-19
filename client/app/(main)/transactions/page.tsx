@@ -55,12 +55,8 @@ export default function TransactionsPage() {
 
   return (
     <div className="pb-20 md:pb-8">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-16 z-30 px-4 py-3">
-        <h1 className="text-xl font-bold text-gray-900">Transactions</h1>
-      </div>
-
       {/* Stats Card */}
+      <h1 className="text-xl font-bold text-gray-900 mt-6 px-4">Transactions</h1>
       <div className="px-4 py-4">
         <div className="bg-gradient-to-r from-green-600 to-teal-600 text-white rounded-xl p-6 mb-4">
           <h2 className="text-lg font-bold mb-4">Overview</h2>

@@ -149,17 +149,9 @@ export default function TransactionDetailPage() {
 
   return (
     <div className="pb-20 md:pb-8">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-16 z-30 px-4 py-3">
-        <div className="flex items-center gap-3">
-          <button onClick={() => router.back()} className="text-gray-600 hover:text-gray-900">
-            ←
-          </button>
-          <h1 className="text-xl font-bold text-gray-900">Order Details</h1>
-        </div>
-      </div>
+      <h1 className="text-xl font-bold px-4 text-gray-900 mt-6">Order Details</h1>
 
-      <div className="px-4 py-6 max-w-2xl mx-auto space-y-6">
+      <div className="px-4 py-6 max-w-7xl mx-auto space-y-6">
         {/* Order Number */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <p className="text-sm text-blue-800">
@@ -170,72 +162,74 @@ export default function TransactionDetailPage() {
           </p>
         </div>
 
-        {/* Product Info */}
-        <div className="bg-white rounded-lg shadow-md p-4">
-          <h2 className="font-bold text-gray-900 mb-3">Product</h2>
-          <div className="flex gap-4">
-            <div className="w-24 h-24 flex-shrink-0 bg-gray-200 rounded-lg overflow-hidden">
-              {hasValidImage ? (
-                <img
-                  src={product.images[0]}
-                  alt={product.title}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="flex items-center justify-center h-full text-gray-400 text-3xl">
-                  📦
-                </div>
-              )}
-            </div>
-            <div className="flex-1">
-              <h3 className="font-semibold text-gray-900 mb-1">{product.title}</h3>
-              <p className="text-sm text-gray-600 line-clamp-2">{product.description}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Parties Info */}
-        <div className="bg-white rounded-lg shadow-md p-4">
-          <h2 className="font-bold text-gray-900 mb-3">Transaction Parties</h2>
-          <div className="space-y-3">
-            {/* Seller */}
-            <div className='flex-col'>
-              <p className="text-xs text-gray-500 mb-1">Seller</p>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
-                    {transaction.seller.firstName[0]}
-                    {transaction.seller.lastName[0]}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Product Info */}
+          <div className="bg-white rounded-lg shadow-md p-4">
+            <h2 className="font-bold text-gray-900 mb-3">Product</h2>
+            <div className="flex gap-4">
+              <div className="w-24 h-24 flex-shrink-0 bg-gray-200 rounded-lg overflow-hidden">
+                {hasValidImage ? (
+                  <img
+                    src={product.images[0]}
+                    alt={product.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-400 text-3xl">
+                    📦
                   </div>
-                  <div>
-                    <p className="font-medium text-gray-900">
-                      {transaction.seller.firstName} {transaction.seller.lastName}
-                    </p>
-                    <p className="text-xs text-gray-600">{transaction.seller.email}</p>
-                  </div>
-                </div>
-                <button className="px-4 text-blue-600 py-2 border border-blue-300 rounded-lg text-sm font-medium hover:bg-blue-100">Contact
-                </button>
+                )}
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-gray-900 mb-1">{product.title}</h3>
+                <p className="text-sm text-gray-600 line-clamp-2">{product.description}</p>
               </div>
             </div>
-            {/* Buyer */}
-            <div className='flex-col'>
-              <p className="text-xs text-gray-500 mb-1">Buyer</p>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
-                    {transaction.buyer.firstName[0]}
-                    {transaction.buyer.lastName[0]}
+          </div>
+
+          {/* Parties Info */}
+          <div className="bg-white rounded-lg shadow-md p-4">
+            <h2 className="font-bold text-gray-900 mb-3">Transaction Parties</h2>
+            <div className="space-y-3">
+              {/* Seller */}
+              <div className='flex-col'>
+                <p className="text-xs text-gray-500 mb-1">Seller</p>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                      {transaction.seller.firstName[0]}
+                      {transaction.seller.lastName[0]}
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-900">
+                        {transaction.seller.firstName} {transaction.seller.lastName}
+                      </p>
+                      <p className="text-xs text-gray-600">{transaction.seller.email}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-medium text-gray-900">
-                      {transaction.buyer.firstName} {transaction.buyer.lastName}
-                    </p>
-                    <p className="text-xs text-gray-600">{transaction.buyer.email}</p>
-                  </div>
+                  <button className="px-4 text-blue-600 py-2 border border-blue-300 rounded-lg text-sm font-medium hover:bg-blue-100">Contact
+                  </button>
                 </div>
-                <button className="px-4 text-blue-600 py-2 border border-blue-300 rounded-lg text-sm font-medium hover:bg-blue-100">Contact
-                </button>
+              </div>
+              {/* Buyer */}
+              <div className='flex-col'>
+                <p className="text-xs text-gray-500 mb-1">Buyer</p>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                      {transaction.buyer.firstName[0]}
+                      {transaction.buyer.lastName[0]}
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-900">
+                        {transaction.buyer.firstName} {transaction.buyer.lastName}
+                      </p>
+                      <p className="text-xs text-gray-600">{transaction.buyer.email}</p>
+                    </div>
+                  </div>
+                  <button className="px-4 text-blue-600 py-2 border border-blue-300 rounded-lg text-sm font-medium hover:bg-blue-100">Contact
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -330,7 +324,7 @@ export default function TransactionDetailPage() {
             </div>
           </div>
         </div>
-
+        
         {/* Payment Summary */}
         <div className="bg-white rounded-lg shadow-md p-4">
           <h2 className="font-bold text-gray-900 mb-3">Payment Summary</h2>
