@@ -138,7 +138,7 @@ export default function CreateListingPage() {
   return (
     <div className="pb-10 md:pb-8">
       {/* Back Button */}
-      <div className="sticky flex gap-2 items-center top-32.5 z-30 bg-white border-b border-gray-200 px-4 py-3">
+      <div className="flex gap-2 items-center -30 bg-white border-b border-gray-200 px-4 py-3">
         <button
           onClick={() => router.back()}
           className="flex items-center gap-2 border border-gray-200 p-2 rounded-md  text-gray-600 hover:text-gray-900 hover:bg-gray-100 cursor-pointer"
@@ -152,7 +152,7 @@ export default function CreateListingPage() {
       </div>
       <div className="max-w-2xl bg-white mx-auto px-4 py-6">
         {/* Info Card */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+        <div className="bg-blue-50 border mt-6 border-blue-200 rounded-lg p-4 mb-6">
           <div className="flex gap-3">
             <div>
               <h3 className="font-semibold text-blue-900 mb-1">Tips for Success</h3>

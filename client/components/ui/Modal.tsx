@@ -21,7 +21,7 @@ export default function Modal({ isModalOpen, onModalClose, title, children }: Mo
   if (!isModalOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-red-100/5 backdrop-blur-xs">
       <div className="bg-white w-full max-w-3xl mx-4 rounded-2xl shadow-xl overflow-hidden animate-in fade-in zoom-in duration-150">
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b">

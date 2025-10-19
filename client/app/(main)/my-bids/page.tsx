@@ -128,7 +128,7 @@ export default function MyBidsPage() {
       )}
 
       {/* Stats Filter */}
-      <div className="px-4 pb-4">
+      <div className="p-4">
         <div className="grid grid-cols-4 gap-2">
           <button
             onClick={() => setFilter('all')}
@@ -178,7 +178,7 @@ export default function MyBidsPage() {
       </div>
 
       {/* Bids List */}
-      <div className="px-4">
+      <div className="px-4 ">
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-20">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>

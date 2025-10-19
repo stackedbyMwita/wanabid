@@ -9,6 +9,18 @@ import { formatPrice, formatDate, getStatusColor } from '@/lib/utils';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import toast from 'react-hot-toast';
+import PaymentModal from '@/components/transactions/PaymentModal';
+import {
+  ShoppingBag,
+  BanknoteArrowDown,
+  BanknoteArrowUp,
+  CreditCard,
+  Truck,
+  LockKeyhole,
+  Frown,
+  TriangleAlert,
+  CircleCheckBig
+} from 'lucide-react';
 
 export default function TransactionDetailPage() {
   const params = useParams();
@@ -20,6 +32,7 @@ export default function TransactionDetailPage() {
   const [disputeReason, setDisputeReason] = useState('');
   const [actionLoading, setActionLoading] = useState(false);
   const [showDispute, setShowDispute] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   useEffect(() => {
     loadTransaction();
@@ -47,6 +60,7 @@ export default function TransactionDetailPage() {
       loadTransaction();
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to update payment');
+      throw error;
     } finally {
       setActionLoading(false);
     }
@@ -109,7 +123,7 @@ export default function TransactionDetailPage() {
   if (!transaction) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen px-4">
-        <div className="text-6xl mb-4">😕</div>
+        <div className="text-6xl mb-4"><Frown /></div>
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Transaction not found</h2>
         <Button variant="primary" onClick={() => router.push('/transactions')}>
           Back to Transactions
@@ -184,34 +198,44 @@ export default function TransactionDetailPage() {
         <div className="bg-white rounded-lg shadow-md p-4">
           <h2 className="font-bold text-gray-900 mb-3">Transaction Parties</h2>
           <div className="space-y-3">
-            <div>
+            {/* Seller */}
+            <div className='flex-col'>
               <p className="text-xs text-gray-500 mb-1">Seller</p>
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
-                  {transaction.seller.firstName[0]}
-                  {transaction.seller.lastName[0]}
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                    {transaction.seller.firstName[0]}
+                    {transaction.seller.lastName[0]}
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">
+                      {transaction.seller.firstName} {transaction.seller.lastName}
+                    </p>
+                    <p className="text-xs text-gray-600">{transaction.seller.email}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-medium text-gray-900">
-                    {transaction.seller.firstName} {transaction.seller.lastName}
-                  </p>
-                  <p className="text-xs text-gray-600">{transaction.seller.email}</p>
-                </div>
+                <button className="px-4 text-blue-600 py-2 border border-blue-300 rounded-lg text-sm font-medium hover:bg-blue-100">Contact
+                </button>
               </div>
             </div>
-            <div>
+            {/* Buyer */}
+            <div className='flex-col'>
               <p className="text-xs text-gray-500 mb-1">Buyer</p>
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">
-                  {transaction.buyer.firstName[0]}
-                  {transaction.buyer.lastName[0]}
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                    {transaction.buyer.firstName[0]}
+                    {transaction.buyer.lastName[0]}
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">
+                      {transaction.buyer.firstName} {transaction.buyer.lastName}
+                    </p>
+                    <p className="text-xs text-gray-600">{transaction.buyer.email}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-medium text-gray-900">
-                    {transaction.buyer.firstName} {transaction.buyer.lastName}
-                  </p>
-                  <p className="text-xs text-gray-600">{transaction.buyer.email}</p>
-                </div>
+                <button className="px-4 text-blue-600 py-2 border border-blue-300 rounded-lg text-sm font-medium hover:bg-blue-100">Contact
+                </button>
               </div>
             </div>
           </div>
@@ -229,7 +253,7 @@ export default function TransactionDetailPage() {
                     : 'bg-gray-100 text-gray-400'
                 }`}
               >
-                💳
+                <CreditCard />
               </div>
               <div className="flex-1">
                 <p className="font-medium text-gray-900">Payment</p>
@@ -253,7 +277,7 @@ export default function TransactionDetailPage() {
                     : 'bg-gray-100 text-gray-400'
                 }`}
               >
-                🔒
+                <LockKeyhole />
               </div>
               <div className="flex-1">
                 <p className="font-medium text-gray-900">Escrow</p>
@@ -280,7 +304,7 @@ export default function TransactionDetailPage() {
                     : 'bg-gray-100 text-gray-400'
                 }`}
               >
-                🚚
+                <Truck />
               </div>
               <div className="flex-1">
                 <p className="font-medium text-gray-900">Delivery</p>
@@ -313,11 +337,11 @@ export default function TransactionDetailPage() {
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-gray-600">Item Price</span>
-              <span className="font-medium">{formatPrice(transaction.finalAmount)}</span>
+              <span className="font-medium text-gray-400">{formatPrice(transaction.finalAmount)}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-600">Escrow Fee (5%)</span>
-              <span className="font-medium">{formatPrice(transaction.escrowFee)}</span>
+              <span className="font-medium text-gray-400">{formatPrice(transaction.escrowFee)}</span>
             </div>
             <div className="border-t pt-2 flex justify-between">
               <span className="font-bold text-gray-900">Total</span>
@@ -332,28 +356,36 @@ export default function TransactionDetailPage() {
         <div className="space-y-3">
           {/* Buyer Actions */}
           {isBuyer && transaction.paymentStatus === 'pending' && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-              <h3 className="font-bold text-yellow-900 mb-2">⚠️ Payment Required</h3>
-              <p className="text-sm text-yellow-800 mb-3">
-                Complete payment to proceed with this order. Your funds will be held securely in
-                escrow.
-              </p>
-              <Button
-                variant="primary"
-                size="lg"
-                className="w-full"
-                onClick={handlePayment}
-                isLoading={actionLoading}
-              >
-                Confirm Payment
-              </Button>
-            </div>
+            <>
+              <div className="bg-yellow-50 gap-2 items-center border border-yellow-200 rounded-lg p-4">
+                <h3 className="font-bold flex items-center gap-2 text-yellow-900 mb-2"><TriangleAlert /> Payment Required</h3>
+                <p className="text-sm text-yellow-800 mb-3">
+                  Complete payment to proceed with this order. Your funds will be held securely in escrow.
+                </p>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  className="w-full"
+                  onClick={() => setShowPaymentModal(true)}
+                  isLoading={actionLoading}
+                >
+                  Confirm Payment
+                </Button>
+              </div>
+
+              <PaymentModal
+                isModalOpen={showPaymentModal}
+                onModalClose={() => setShowPaymentModal(false)}
+                transaction={transaction}
+                onPaymentComplete={handlePayment}
+              />
+            </>
           )}
 
           {isBuyer &&
             transaction.deliveryStatus === 'shipped' && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h3 className="font-bold text-blue-900 mb-2">📦 Item Shipped</h3>
+                <h3 className="font-bold flex gap-2 items-center text-blue-900 mb-2"><Truck /> Item Shipped</h3>
                 <p className="text-sm text-blue-800 mb-3">
                   Your item has been shipped. Once you receive it, confirm delivery to release
                   payment to the seller.
@@ -375,7 +407,7 @@ export default function TransactionDetailPage() {
             transaction.paymentStatus === 'completed' &&
             transaction.deliveryStatus === 'pending' && (
               <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                <h3 className="font-bold text-green-900 mb-2">✅ Payment Received</h3>
+                <h3 className="font-bold flex items-center gap-2 text-green-900 mb-2"><CircleCheckBig /> Payment Received</h3>
                 <p className="text-sm text-green-800 mb-3">
                   Buyer has paid. Ship the item and provide tracking details.
                 </p>
@@ -445,7 +477,7 @@ export default function TransactionDetailPage() {
 
           {transaction.deliveryStatus === 'disputed' && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-              <h3 className="font-bold text-red-900 mb-2">⚠️ Dispute Active</h3>
+              <h3 className="font-bold flex items-center gap-2 text-red-900 mb-2"><TriangleAlert /> Dispute Active</h3>
               <p className="text-sm text-red-800">
                 This transaction is under review. Our team will contact you shortly.
               </p>
@@ -454,7 +486,7 @@ export default function TransactionDetailPage() {
 
           {transaction.escrowStatus === 'released' && (
             <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-              <h3 className="font-bold text-green-900 mb-2">✅ Transaction Complete</h3>
+              <h3 className="flex justify-center items-center gap-2 font-bold text-green-900 mb-2"><CircleCheckBig /> Transaction Complete</h3>
               <p className="text-sm text-green-800">
                 {isBuyer
                   ? 'Thank you for your purchase!'

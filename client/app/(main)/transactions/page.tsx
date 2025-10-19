@@ -6,6 +6,14 @@ import { transactionsAPI } from '@/lib/api';
 import { Transaction } from '@/types';
 import { formatPrice, formatDate, getStatusColor } from '@/lib/utils';
 import Link from 'next/link';
+import {
+  ShoppingBag,
+  BanknoteArrowDown,
+  BanknoteArrowUp,
+  CreditCard,
+  Truck,
+  LockKeyhole
+} from 'lucide-react';
 
 export default function TransactionsPage() {
   const { user } = useAuth();
@@ -80,23 +88,23 @@ export default function TransactionsPage() {
         <div className="flex gap-2">
           <button
             onClick={() => setActiveTab('purchases')}
-            className={`flex-1 py-3 rounded-lg font-medium transition ${
+            className={`flex-1 flex items-center justify-center gap-3 py-3 rounded-lg font-medium transition ${
               activeTab === 'purchases'
                 ? 'bg-blue-600 text-white'
                 : 'bg-white border border-gray-200 text-gray-700'
             }`}
           >
-            🛍️ Purchases ({purchases.length})
+            <BanknoteArrowUp /> Purchases ({purchases.length})
           </button>
           <button
             onClick={() => setActiveTab('sales')}
-            className={`flex-1 py-3 rounded-lg font-medium transition ${
+            className={`flex-1 flex items-center justify-center gap-3 py-3 rounded-lg font-medium transition ${
               activeTab === 'sales'
                 ? 'bg-blue-600 text-white'
                 : 'bg-white border border-gray-200 text-gray-700'
             }`}
           >
-            💰 Sales ({sales.length})
+            <BanknoteArrowDown /> Sales ({sales.length})
           </button>
         </div>
       </div>
@@ -178,25 +186,25 @@ export default function TransactionsPage() {
                         {/* Status Badges */}
                         <div className="flex flex-wrap gap-2 mb-2">
                           <span
-                            className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(
+                            className={`px-2 flex items-center gap-1 py-1 text-xs font-medium rounded-full ${getStatusColor(
                               transaction.paymentStatus
                             )}`}
                           >
-                            💳 {transaction.paymentStatus}
+                            <CreditCard size={16} /> {transaction.paymentStatus}
                           </span>
                           <span
-                            className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(
-                              transaction.deliveryStatus
-                            )}`}
-                          >
-                            🚚 {transaction.deliveryStatus}
-                          </span>
-                          <span
-                            className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(
+                            className={`px-2 flex items-center gap-1 py-1 text-xs font-medium rounded-full ${getStatusColor(
                               transaction.escrowStatus
                             )}`}
                           >
-                            🔒 {transaction.escrowStatus}
+                            <LockKeyhole size={16}/> {transaction.escrowStatus}
+                          </span>
+                          <span
+                            className={`px-2 flex items-center gap-1 py-1 text-xs font-medium rounded-full ${getStatusColor(
+                              transaction.deliveryStatus
+                            )}`}
+                          >
+                            <Truck size={16}/> {transaction.deliveryStatus}
                           </span>
                         </div>
 
