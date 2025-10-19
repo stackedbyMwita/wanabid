@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
 import {
   Home,
   Search,
@@ -10,15 +11,19 @@ import {
   Target,
   User,
 } from 'lucide-react';
+import { TbMoneybag } from "react-icons/tb";
 
 export default function MobileNav() {
   const pathname = usePathname();
+  const { user } = useAuth();
 
   const navItems = [
     { href: '/dashboard', icon: Home, label: 'Home' },
     { href: '/products', icon: Search, label: 'Browse' },
-    { href: '/create-listing', icon: PlusCircle, label: 'Sell' },
-    { href: '/my-bids', icon: Target, label: 'Bids' },
+    ...(user?.userType === 'seller'
+      ? [{ href: '/create-listing', icon: PlusCircle, label: 'Sell' }]
+      : [{ href: '/my-bids', icon: Target, label: 'Bids' }]),
+    { href: '/transactions', icon: TbMoneybag, label: 'Orders' },
     { href: '/profile', icon: User, label: 'Profile' },
   ];
 

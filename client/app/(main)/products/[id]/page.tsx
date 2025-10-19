@@ -133,7 +133,7 @@ export default function ProductDetailPage() {
   return (
     <div className="pb-20 md:pb-8">
       {/* Back Button */}
-      <div className="sticky top-32.5 z-30 bg-white border-b border-gray-200 px-4 py-3">
+      <div className="z-30 bg-white border-b border-gray-200 px-4 py-3">
         <button
           onClick={() => router.back()}
           className="flex items-center gap-2 border border-gray-200 p-2 rounded-md  text-gray-600 hover:text-gray-900 hover:bg-gray-100 cursor-pointer"
@@ -279,7 +279,7 @@ export default function ProductDetailPage() {
 
         {isOwner && (
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-            <p className="text-sm text-yellow-800">
+            <p className="text-sm flex items-center gap-2 text-yellow-600">
               <PinOff /> This is your listing. You cannot bid on your own products.
             </p>
           </div>
@@ -287,7 +287,7 @@ export default function ProductDetailPage() {
 
         {isEnded && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <p className="text-sm flex items-center gap-2 text-red-600 font-medium">
+            <p className="text-sm flex items-center gap-2 text-yellow-600 font-medium">
               <TriangleAlert /> This auction has ended
             </p>
           </div>
@@ -323,7 +323,7 @@ export default function ProductDetailPage() {
                           {bidderFirstName} {bidderLastName}
                           {index === 0 && (
                             <span className="ml-2 text-xs bg-green-600 text-white px-2 py-0.5 rounded-full">
-                              Winning
+                              {isEnded ? 'Winner' : 'Winning'}
                             </span>
                           )}
                         </p>
