@@ -1,5 +1,6 @@
 export interface User {
   id: string;
+  _id?: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -46,8 +47,21 @@ export interface Bid {
 export interface Transaction {
   _id: string;
   product: Product;
-  seller: User;
-  buyer: User;
+  seller: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    rating?: number;
+  };
+  buyer: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+  };
   finalAmount: number;
   escrowStatus: 'pending' | 'held' | 'released' | 'refunded';
   deliveryStatus: 'pending' | 'shipped' | 'delivered' | 'disputed';

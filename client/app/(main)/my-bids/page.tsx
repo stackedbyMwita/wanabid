@@ -132,10 +132,10 @@ export default function MyBidsPage() {
         <div className="grid grid-cols-4 gap-2">
           <button
             onClick={() => setFilter('all')}
-            className={`p-3 rounded-lg text-center transition ${
+            className={`p-3 border rounded-lg text-center transition ${
               filter === 'all'
-                ? 'bg-blue-600 text-white'
-                : 'bg-white border border-gray-200'
+                ? 'border-blue-600 text-blue-600 bg-blue-100'
+                : 'bg-white text-gray-600 border-gray-200'
             }`}
           >
             <div className="text-xl font-bold">{stats.total}</div>
@@ -143,10 +143,10 @@ export default function MyBidsPage() {
           </button>
           <button
             onClick={() => setFilter('winning')}
-            className={`p-3 rounded-lg text-center transition ${
+            className={`p-3 border rounded-lg text-center transition ${
               filter === 'winning'
-                ? 'bg-green-600 text-white'
-                : 'bg-white border border-gray-200'
+                ? 'border-green-600 text-green-600 bg-green-100'
+                : 'bg-white text-gray-600 border-gray-200'
             }`}
           >
             <div className="text-xl font-bold">{stats.winning}</div>
@@ -154,10 +154,10 @@ export default function MyBidsPage() {
           </button>
           <button
             onClick={() => setFilter('outbid')}
-            className={`p-3 rounded-lg text-center transition ${
+            className={`p-3 border rounded-lg text-center transition ${
               filter === 'outbid'
-                ? 'bg-orange-600 text-white'
-                : 'bg-white border border-gray-200'
+                ? 'border-orange-600 text-orange-600 bg-orange-100'
+                : 'bg-white text-gray-600 border-gray-200'
             }`}
           >
             <div className="text-xl font-bold">{stats.outbid}</div>
@@ -165,10 +165,10 @@ export default function MyBidsPage() {
           </button>
           <button
             onClick={() => setFilter('ended')}
-            className={`p-3 rounded-lg text-center transition ${
+            className={`p-3 border rounded-lg text-center transition ${
               filter === 'ended'
-                ? 'bg-gray-600 text-white'
-                : 'bg-white border border-gray-200'
+                ? 'border-gray-600 text-gray-600 bg-gray-100'
+                : 'bg-white text-gray-600 border-gray-200'
             }`}
           >
             <div className="text-xl font-bold">{stats.ended}</div>
@@ -186,7 +186,7 @@ export default function MyBidsPage() {
           </div>
         ) : filteredBids.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20">
-            <div className="text-6xl mb-4"><Target size='30' /></div>
+            <div className="text-6xl mb-4"><Target size='100' /></div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">
               {filter === 'all' ? 'No bids yet' : `No ${filter} bids`}
             </h3>
