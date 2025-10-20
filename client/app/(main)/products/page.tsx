@@ -5,7 +5,20 @@ import Button from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
 import { productsAPI } from '@/lib/api';
 import { Product } from '@/types';
-import { Funnel, X } from 'lucide-react';
+import {
+  Funnel,
+  X,
+  Smartphone,
+  Armchair,
+  LibraryBig,
+  Shirt,
+  Volleyball,
+  Gift,
+  Gavel,
+  CreditCard,
+  Handshake,
+  Plus }
+  from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -129,12 +142,12 @@ export default function ProductsPage() {
                 className="text-gray-500 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">All Categories</option>
-                <option value="Electronics">📱 Electronics</option>
-                <option value="Books">📚 Books</option>
-                <option value="Fashion">👕 Fashion</option>
-                <option value="Furniture">🪑 Furniture</option>
-                <option value="Sports">⚽ Sports</option>
-                <option value="Other">🎁 Other</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Books">Books</option>
+                <option value="Fashion">Fashion</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Sports">Sports</option>
+                <option value="Other">Other</option>
               </select>
             </div>
 
@@ -258,7 +271,7 @@ export default function ProductsPage() {
               <p className="text-sm text-gray-600">
                 {products.length} {products.length === 1 ? 'product' : 'products'} found
               </p>
-              <select className="text-sm border border-gray-300 rounded-lg text-gray-900 px-3 py-1">
+              <select className="text-sm border border-gray-300 rounded-lg text-gray-900 px-3 py-2">
                 <option>Sort by: Latest</option>
                 <option>Price: Low to High</option>
                 <option>Price: High to Low</option>

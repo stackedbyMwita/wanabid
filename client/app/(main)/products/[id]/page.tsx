@@ -161,6 +161,11 @@ export default function ProductDetailPage() {
             <PackageSearch size='40' />
           </div>
         )}
+        {isEnded && (
+          <div className='absolute top-4 left-4 bg-red-600 text-white py-3 px-4 rounded-full text-sm font-semibold animate-pulse-red will-change-transform'>
+            Ended!
+          </div>
+        )}
       </div>
 
       {/* Thumbnail grid */}
