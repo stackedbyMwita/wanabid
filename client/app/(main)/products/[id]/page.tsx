@@ -33,10 +33,20 @@ export default function ProductDetailPage() {
   const [bidAmount, setBidAmount] = useState('');
   const [isPlacingBid, setIsPlacingBid] = useState(false);
   const [isBuyingNow, setIsBuyingNow] = useState(false);
+  const [activeImage, setActiveImage] = useState<string | null>(null);
+
+  // Images
+  const hasImages = product?.images && product.images.length > 0;
+  const mainImage = hasImages ? product.images[0] : null;
+  const extraImages = hasImages ? product.images.slice(0, 4) : []; // Maximum of 4 thimbnails
 
   useEffect(() => {
     loadProductDetails();
   }, [params.id]);
+
+  useEffect(() => {
+    setActiveImage(mainImage);
+  }, [mainImage]);
 
   const loadProductDetails = async () => {
     try {
@@ -133,19 +143,49 @@ export default function ProductDetailPage() {
   return (
     <div className="pb-20 bg-white md:pb-8">
       {/* Image Gallery */}
-      <div className="bg-gray-200 aspect-square md:aspect-video">
-        {product.images && product.images.length > 0 ? (
+      <div className="overflow-hidden relative group bg-gray-200 border m-2 rounded-md aspect-square md:aspect-video">
+        {activeImage ? (
           <img
-            src={product.images[0]}
+            src={activeImage}
             alt={product.title}
-            className="w-full h-full object-cover"
+            onMouseMove={(e) => {
+              const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+              const x = ((e.pageX - left) / width) * 100;
+              const y = ((e.pageY - top) / height) * 100;
+              e.currentTarget.style.transformOrigin = `${x}% ${y}%`;
+            }}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-150 cursor-zoom-in"
           />
         ) : (
-          <div className="flex items-center justify-center h-full text-gray-400 text-8xl">
-            <PackageSearch size='30' />
+          <div className="flex items-center justify-center h-full text-gray-400">
+            <PackageSearch size='40' />
           </div>
         )}
       </div>
+
+      {/* Thumbnail grid */}
+      {extraImages.length > 0 && (
+        <div
+          className='flex justify-center gap-2 my-4 px-4 bg-white'
+        >
+          {extraImages.map((imgUrl, index) => (
+            // Thumbnail rendered
+            <button
+              key={index}
+              onClick={() => setActiveImage(imgUrl)}
+              className='border h-20 w-20 border-gray-300 aspect-square overflow-hidden'
+            >
+              <img
+                src={imgUrl}
+                alt={`${product.title} thumbnail ${index + 1}`}
+                className='w-full h-full object-cover'
+              />
+            </button>
+          ))}
+        </div>
+      )}
+
+      
 
       {/* Product Info */}
       <div className="bg-white px-4 py-6">

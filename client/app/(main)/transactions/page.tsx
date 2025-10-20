@@ -58,7 +58,7 @@ export default function TransactionsPage() {
       {/* Stats Card */}
       <h1 className="text-xl font-bold text-gray-900 mt-6 px-4">Transactions</h1>
       <div className="px-4 py-4">
-        <div className="bg-gradient-to-r from-green-600 to-teal-600 text-white rounded-xl p-6 mb-4">
+        <div className="bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-xl p-6 mb-4">
           <h2 className="text-lg font-bold mb-4">Overview</h2>
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -81,23 +81,23 @@ export default function TransactionsPage() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-2">
+        <div className="flex">
           <button
             onClick={() => setActiveTab('purchases')}
-            className={`flex-1 flex items-center justify-center gap-3 py-3 rounded-lg font-medium transition ${
+            className={`flex-1 flex border rounded-l-lg items-center justify-center gap-3 py-3 font-medium transition ${
               activeTab === 'purchases'
-                ? 'bg-blue-600 text-white'
-                : 'bg-white border border-gray-200 text-gray-700'
+                ? 'bg-blue-100 border-blue-200 text-blue-700'
+                : 'bg-white border-gray-200 text-gray-700'
             }`}
           >
             <BanknoteArrowUp /> Purchases ({purchases.length})
           </button>
           <button
             onClick={() => setActiveTab('sales')}
-            className={`flex-1 flex items-center justify-center gap-3 py-3 rounded-lg font-medium transition ${
+            className={`flex-1 flex border rounded-r-lg items-center justify-center gap-3 py-3 font-medium transition ${
               activeTab === 'sales'
-                ? 'bg-blue-600 text-white'
-                : 'bg-white border border-gray-200 text-gray-700'
+                ? 'bg-blue-100 border-blue-200 text-blue-700'
+                : 'bg-white border-gray-200 text-gray-700'
             }`}
           >
             <BanknoteArrowDown /> Sales ({sales.length})
@@ -106,7 +106,7 @@ export default function TransactionsPage() {
       </div>
 
       {/* Transactions List */}
-      <div className="px-4">
+      <div className="px-4 ">
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-20">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>

@@ -9,7 +9,7 @@ export interface ITransaction extends Document {
   deliveryStatus: 'pending' | 'shipped' | 'delivered' | 'disputed';
   paymentStatus: 'pending' | 'completed' | 'refunded';
   escrowFee: number;
-  trackingNumber?: string;
+  trackingCode?: string;
   createdAt: Date;
   completedAt?: Date;
 }
@@ -23,7 +23,7 @@ const TransactionSchema = new Schema<ITransaction>({
   deliveryStatus: { type: String, enum: ['pending', 'shipped', 'delivered', 'disputed'], default: 'pending' },
   paymentStatus: { type: String, enum: ['pending', 'completed', 'refunded'], default: 'pending' },
   escrowFee: { type: Number, required: true },
-  trackingNumber: { type: String },
+  trackingCode: { type: String },
   createdAt: { type: Date, default: Date.now },
   completedAt: { type: Date }
 });

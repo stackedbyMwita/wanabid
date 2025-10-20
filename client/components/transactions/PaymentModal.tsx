@@ -311,7 +311,7 @@ export default function PaymentModal({
                   }}
                   className={`p-4 rounded-lg border-2 transition ${
                     paymentMethod === 'card'
-                      ? 'border-blue-600 text-blue-600 bg-blue-50'
+                      ? 'border-orange-600 text-orange-600 bg-orange-50'
                       : 'border-gray-200 text-gray-400 hover:border-gray-300'
                   }`}
                 >
@@ -328,7 +328,7 @@ export default function PaymentModal({
                   }}
                   className={`p-4 rounded-lg border-2 transition ${
                     paymentMethod === 'mpesa'
-                      ? 'border-blue-600 text-blue-600 bg-blue-50'
+                      ? 'border-green-600 text-green-600 bg-green-50'
                       : 'border-gray-200 text-gray-400 hover:border-gray-300'
                   }`}
                 >
@@ -491,28 +491,28 @@ export default function PaymentModal({
 
             {/* Price Breakdown */}
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <p className="font-bold text-gray-900 mb-3">Payment Summary</p>
+              <p className="font-bold text-blue-900 mb-3">Payment Summary</p>
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Item Price</span>
-                  <span className="font-medium">
+                  <span className="text-blue-600">Item Price</span>
+                  <span className="font-medium text-gray-400">
                     {formatPrice(transaction.finalAmount)}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Escrow Fee (5%)</span>
-                  <span className="font-medium">
+                  <span className="text-blue-600">Escrow Fee (5%)</span>
+                  <span className="font-medium text-gray-400">
                     {formatPrice(transaction.escrowFee)}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Delivery Fee</span>
-                  <span className="font-medium">
+                  <span className="text-blue-600">Delivery Fee</span>
+                  <span className="font-medium text-gray-400">
                     {formatPrice(selectedLocation?.deliveryFee || 0)}
                   </span>
                 </div>
                 <div className="border-t pt-2 flex justify-between">
-                  <span className="font-bold text-gray-900">Total Amount</span>
+                  <span className="font-bold text-blue-900">Total Amount</span>
                   <span className="font-bold text-blue-600 text-lg">
                     {formatPrice(totalAmount)}
                   </span>
@@ -526,7 +526,7 @@ export default function PaymentModal({
         <div className="flex gap-3 pt-4 border-t">
           {step > 1 && (
             <Button
-              variant="outline"
+              variant="secondary"
               onClick={handleBack}
               className="flex-1"
               disabled={isLoading}
@@ -545,7 +545,7 @@ export default function PaymentModal({
               className="flex-1"
               isLoading={isLoading}
             >
-              Confirm Payment - {formatPrice(totalAmount)}
+              Confirm Payment
             </Button>
           )}
         </div>

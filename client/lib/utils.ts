@@ -47,8 +47,10 @@ export function getStatusColor(status: string): string {
     expired: 'text-gray-600 bg-gray-50',
     cancelled: 'text-red-600 bg-red-50',
     pending: 'text-yellow-600 bg-yellow-50',
+    released: 'text-green-600 bg-green-50',
     shipped: 'text-blue-600 bg-blue-50',
     delivered: 'text-green-600 bg-green-50',
+    completed: 'text-green-600 bg-green-50',
     disputed: 'text-red-600 bg-red-50',
   };
   return colors[status as keyof typeof colors] || 'text-gray-600 bg-gray-50';

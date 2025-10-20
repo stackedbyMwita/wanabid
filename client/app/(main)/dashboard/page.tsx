@@ -65,7 +65,10 @@ export default function DashboardPage() {
       <div className="px-4 mb-6">
         <div className="grid grid-cols-2 gap-4">
           
-          <div className="bg-white p-4 flex flex-col rounded-lg shadow-md">
+          <Link
+            href="/bids"
+            className="bg-white p-4 flex flex-col rounded-lg shadow-md"
+          >
             <div className='flex justify-between mb-2 items-center'>
               <p className="text-sm text-gray-600">Active Bids</p>
               <div className='rounded-md bg-blue-100 text-blue-600 p-2'>
@@ -73,9 +76,12 @@ export default function DashboardPage() {
               </div>
             </div>
             <p className="text-2xl font-bold text-gray-900">{myBidsCount}</p>
-          </div>
+          </Link>
 
-          <div className="bg-white p-4 flex flex-col rounded-lg shadow-md">
+          <Link
+            href="/transactions"
+            className="bg-white p-4 flex flex-col rounded-lg shadow-md"
+          >
             <div className='flex justify-between mb-2 items-center'>
               <p className="text-sm text-gray-600">Transactions</p>
               <div className='rounded-md bg-blue-100 text-blue-600 p-2'>
@@ -83,7 +89,7 @@ export default function DashboardPage() {
               </div>
             </div>
             <p className="text-2xl font-bold text-gray-900">{transactionsCount}</p>
-          </div>
+          </Link>
         </div>
       </div>
 
@@ -113,10 +119,14 @@ export default function DashboardPage() {
             <Link
               key={cat.category}
               href={`/products?category=${cat.category}`}
-              className="bg-white p-4 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow"
+              className="group bg-white rounded-lg shadow-md text-center hover:shadow-lg transition-shadow"
             >
-              <div className="flex text-3xl text-blue-600 items-center justify-center mb-2">{cat.icon}</div>
-              <p className="text-xs font-medium text-gray-700">{cat.name}</p>
+              <div className={`text-3xl bg-gray-100 group-hover:bg-gray-200 text-gray-600 rounded-t-lg p-4 flex items-center justify-center mx-auto`}>
+                {cat.icon}
+              </div>
+              <div className="text-gray-600 p-2 font-medium">
+                {cat.name}
+              </div>
             </Link>
           ))}
         </div>

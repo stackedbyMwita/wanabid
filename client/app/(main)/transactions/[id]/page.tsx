@@ -11,6 +11,7 @@ import Modal from '@/components/ui/Modal';
 import Input from '@/components/ui/Input';
 import toast from 'react-hot-toast';
 import PaymentModal from '@/components/transactions/PaymentModal';
+import DeliveryConfirmModal from '@/components/transactions/DeliveryConfirmModal';
 import {
   ShoppingBag,
   BanknoteArrowDown,
@@ -29,11 +30,12 @@ export default function TransactionDetailPage() {
   const { user } = useAuth();
   const [transaction, setTransaction] = useState<Transaction | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [trackingNumber, setTrackingNumber] = useState('');
+  const [trackingCode, setTrackingCode] = useState('');
   const [disputeReason, setDisputeReason] = useState('');
   const [actionLoading, setActionLoading] = useState(false);
   const [showDispute, setShowDispute] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showDeliveryModal, setShowDeliveryModal] = useState(false);
 
   useEffect(() => {
     loadTransaction();
@@ -71,7 +73,7 @@ export default function TransactionDetailPage() {
     if (!transaction) return;
     setActionLoading(true);
     try {
-      await transactionsAPI.markAsShipped(transaction._id, trackingNumber);
+      await transactionsAPI.markAsShipped(transaction._id, trackingCode);
       toast.success('Item marked as shipped!');
       loadTransaction();
     } catch (error: any) {
@@ -90,6 +92,7 @@ export default function TransactionDetailPage() {
       loadTransaction();
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to confirm delivery');
+      throw error;
     } finally {
       setActionLoading(false);
     }
@@ -242,11 +245,6 @@ export default function TransactionDetailPage() {
             <span className='font-bold mb-3'>
               Status
             </span>
-            {transaction.trackingNumber && (
-              <p className="text-xs bg-gray-50 p-2 border border-gray-200 rounded-md text-gray-500 ">
-                Tracking Number: {transaction.trackingNumber}
-              </p>
-            )}
           </h2>
           <div className="flex justify-between px-2 items-center">
             {/* Payment Status */}
@@ -338,6 +336,11 @@ export default function TransactionDetailPage() {
               </div>
             </div>
           </div>
+          {(isSeller || (isBuyer && transaction.deliveryStatus === 'delivered')) && transaction.trackingCode && (
+              <p className="text-xs bg-gray-50 mt-4 p-2 border border-gray-200 rounded-md text-gray-500 ">
+                Tracking code: {transaction.trackingCode}
+              </p>
+            )}
         </div>
         
         {/* Payment Summary */}
@@ -372,7 +375,7 @@ export default function TransactionDetailPage() {
                   Complete payment to proceed with this order. Your funds will be held securely in escrow.
                 </p>
                 <Button
-                  variant="primary"
+                  variant="secondary"
                   size="lg"
                   className="w-full"
                   onClick={() => setShowPaymentModal(true)}
@@ -393,22 +396,31 @@ export default function TransactionDetailPage() {
 
           {isBuyer &&
             transaction.deliveryStatus === 'shipped' && (
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h3 className="font-bold flex gap-2 items-center text-blue-900 mb-2"><Truck /> Item Shipped</h3>
-                <p className="text-sm text-blue-800 mb-3">
-                  Your item has been shipped. Once you receive it, confirm delivery to release
-                  payment to the seller.
-                </p>
-                <Button
-                  variant="primary"
-                  size="lg"
-                  className="w-full"
-                  onClick={handleConfirmDelivery}
-                  isLoading={actionLoading}
-                >
-                  Confirm Delivery
-                </Button>
-              </div>
+              <>
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <h3 className="font-bold flex gap-2 items-center text-blue-900 mb-2"><Truck /> Item Shipped</h3>
+                  <p className="text-sm text-blue-800 mb-3">
+                    Your item has been shipped. Once you receive it, verify the tracking number and confirm delivery to release payment to the seller.
+                  </p>
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    className="w-full"
+                    onClick={() => setShowDeliveryModal(true)}
+                  >
+                    Confirm Delivery
+                  </Button>
+                  
+                </div>
+                {/* Confirm Payment Modal */}
+                <DeliveryConfirmModal
+                  isModalOpen={showDeliveryModal}
+                  onModalClose={() => setShowDeliveryModal(false)}
+                  productTitle={transaction.product.title}
+                  trackingCode={transaction.trackingCode || ''}
+                  onConfirm={handleConfirmDelivery} 
+                />
+              </>
             )}
 
           {/* Seller Actions */}
@@ -421,9 +433,10 @@ export default function TransactionDetailPage() {
                   Buyer has paid. Ship the item and provide tracking details.
                 </p>
                 <Input
-                  label="Tracking Number (Optional)"
-                  value={trackingNumber}
-                  onChange={(e) => setTrackingNumber(e.target.value)}
+                  type="password"
+                  label="Tracking code (secret)"
+                  value={trackingCode}
+                  onChange={(e) => setTrackingCode(e.target.value)}
                   placeholder="Enter tracking number"
                   className="mb-3"
                 />

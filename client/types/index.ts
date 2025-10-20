@@ -67,7 +67,7 @@ export interface Transaction {
   deliveryStatus: 'pending' | 'shipped' | 'delivered' | 'disputed';
   paymentStatus: 'pending' | 'completed' | 'refunded';
   escrowFee: number;
-  trackingNumber?: string;
+  trackingCode?: string;
   createdAt: string;
   completedAt?: string;
 }

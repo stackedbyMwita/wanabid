@@ -132,7 +132,7 @@ router.post(
 router.post(
   '/:transactionId/ship',
   auth,
-  [body('trackingNumber').optional().isString()],
+  [body('trackingCode').isString()],
   async (req: AuthRequest, res: Response) => {
     try {
       const transaction = await Transaction.findById(req.params.transactionId);
@@ -155,8 +155,8 @@ router.post(
       }
 
       transaction.deliveryStatus = 'shipped';
-      if (req.body.trackingNumber) {
-        transaction.trackingNumber = req.body.trackingNumber;
+      if (req.body.trackingCode) {
+        transaction.trackingCode = req.body.trackingCode;
       }
 
       await transaction.save();
