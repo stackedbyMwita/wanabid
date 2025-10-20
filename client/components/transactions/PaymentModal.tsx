@@ -7,6 +7,7 @@ import Input from '@/components/ui/Input';
 import { DELIVERY_LOCATIONS, Location, getLocationById } from '@/lib/constants/locations';
 import { formatPrice } from '@/lib/utils';
 import toast from 'react-hot-toast';
+import { Smartphone, CreditCard } from 'lucide-react';
 
 interface PaymentModalProps {
   isModalOpen: boolean;
@@ -148,7 +149,7 @@ export default function PaymentModal({
       if (!mpesaNumber.trim()) {
         newErrors.mpesaNumber = 'M-Pesa number is required';
       } else if (!/^0[17]\d{8}$/.test(mpesaNumber)) {
-        newErrors.mpesaNumber = 'Enter a valid Kenyan phone number';
+        newErrors.mpesaNumber = 'Enter a valid Kenyan M-PESA number';
       }
     }
 
@@ -247,15 +248,15 @@ export default function PaymentModal({
             <h3 className="text-lg font-bold text-gray-900 mb-4">
               Select Delivery Location
             </h3>
-            <div className="space-y-2 max-h-96 overflow-y-auto">
+            <div className="max-h-96 overflow-y-auto">
               {DELIVERY_LOCATIONS.map((location) => (
                 <button
                   key={location.id}
                   onClick={() => setSelectedLocation(location)}
-                  className={`w-full p-4 rounded-lg border-2 text-left transition ${
+                  className={`w-full px-4 py-2 border text-left transition ${
                     selectedLocation?.id === location.id
                       ? 'border-blue-600 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      : 'border-gray-50 hover:border-gray-300'
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -286,7 +287,7 @@ export default function PaymentModal({
             </h3>
 
             <Input
-              label="Phone Number for Delivery *"
+              label="Phone Number for Delivery"
               type="tel"
               value={phoneNumber}
               onChange={(e) => {
@@ -299,7 +300,7 @@ export default function PaymentModal({
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Payment Method *
+                Payment Method
               </label>
               <div className="grid grid-cols-2 gap-3">
                 <button
@@ -310,11 +311,13 @@ export default function PaymentModal({
                   }}
                   className={`p-4 rounded-lg border-2 transition ${
                     paymentMethod === 'card'
-                      ? 'border-blue-600 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? 'border-blue-600 text-blue-600 bg-blue-50'
+                      : 'border-gray-200 text-gray-400 hover:border-gray-300'
                   }`}
                 >
-                  <div className="text-3xl mb-2">💳</div>
+                  <div className="flex text-3xl mb-2 justify-center">
+                    <CreditCard />
+                  </div>
                   <p className="font-medium">Bank Card</p>
                 </button>
                 <button
@@ -325,11 +328,13 @@ export default function PaymentModal({
                   }}
                   className={`p-4 rounded-lg border-2 transition ${
                     paymentMethod === 'mpesa'
-                      ? 'border-blue-600 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? 'border-blue-600 text-blue-600 bg-blue-50'
+                      : 'border-gray-200 text-gray-400 hover:border-gray-300'
                   }`}
                 >
-                  <div className="text-3xl mb-2">📱</div>
+                  <div className="flex text-3xl mb-2 justify-center">
+                    <Smartphone />
+                  </div>
                   <p className="font-medium">M-Pesa</p>
                 </button>
               </div>
@@ -350,7 +355,7 @@ export default function PaymentModal({
             {paymentMethod === 'card' ? (
               <>
                 <Input
-                  label="Card Number *"
+                  label="Card Number"
                   type="text"
                   value={cardNumber}
                   onChange={(e) => {
@@ -368,7 +373,7 @@ export default function PaymentModal({
 
                 <div className="grid grid-cols-2 gap-3">
                   <Input
-                    label="Expiry Date *"
+                    label="Expiry Date"
                     type="text"
                     value={cardExpiry}
                     onChange={(e) => {
@@ -386,7 +391,7 @@ export default function PaymentModal({
                   />
 
                   <Input
-                    label="CVV *"
+                    label="CVV"
                     type="text"
                     value={cardCvv}
                     onChange={(e) => {
@@ -403,7 +408,7 @@ export default function PaymentModal({
                 </div>
 
                 <Input
-                  label="Cardholder Name *"
+                  label="Cardholder Name"
                   type="text"
                   value={cardName}
                   onChange={(e) => {
@@ -430,8 +435,11 @@ export default function PaymentModal({
                 />
 
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <p className="text-sm text-green-800">
-                    📱 You will receive an M-Pesa prompt on this number to authorize
+                  <p className="flex items-center gap-2 text-sm text-green-800">
+                    <span className="flex text-green-600 justify-center">
+                      <Smartphone size='30' />
+                    </span>
+                    You will receive an M-Pesa prompt on this number to authorize
                     the payment.
                   </p>
                 </div>
@@ -465,10 +473,11 @@ export default function PaymentModal({
             </div>
 
             {/* Payment Method */}
-            <div className="bg-gray-50 rounded-lg p-4">
-              <p className="text-sm text-gray-600 mb-1">Payment Method</p>
-              <p className="font-semibold text-gray-900">
-                {paymentMethod === 'card' ? '💳 Bank Card' : '📱 M-Pesa'}
+            <div
+              className={`${paymentMethod === 'card' ? 'text-orange-400 bg-orange-50' : 'text-green-500 bg-green-50'} rounded-lg p-4`}>
+              <p className="text-sm mb-1">Payment Method</p>
+              <p className={`font-semibold ${paymentMethod === 'card' ? 'text-orange-400' : 'text-green-500'}`}>
+                {paymentMethod === 'card' ? 'Bank Card' : 'M-Pesa'}
               </p>
               {paymentMethod === 'card' && (
                 <p className="text-sm text-gray-600">

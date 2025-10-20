@@ -7,6 +7,7 @@ import { transactionsAPI } from '@/lib/api';
 import { Transaction } from '@/types';
 import { formatPrice, formatDate, getStatusColor } from '@/lib/utils';
 import Button from '@/components/ui/Button';
+import Modal from '@/components/ui/Modal';
 import Input from '@/components/ui/Input';
 import toast from 'react-hot-toast';
 import PaymentModal from '@/components/transactions/PaymentModal';
@@ -237,9 +238,19 @@ export default function TransactionDetailPage() {
 
         {/* Status Timeline */}
         <div className="bg-white rounded-lg shadow-md p-4">
-          <h2 className="font-bold text-gray-900 mb-3">Status</h2>
-          <div className="space-y-3">
-            <div className="flex items-center gap-3">
+          <h2 className="text-gray-900 mb-3">
+            <span className='font-bold mb-3'>
+              Status
+            </span>
+            {transaction.trackingNumber && (
+              <p className="text-xs bg-gray-50 p-2 border border-gray-200 rounded-md text-gray-500 ">
+                Tracking Number: {transaction.trackingNumber}
+              </p>
+            )}
+          </h2>
+          <div className="flex justify-between px-2 items-center">
+            {/* Payment Status */}
+            <div className="flex flex-col items-center gap-3">
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center ${
                   transaction.paymentStatus === 'completed'
@@ -249,49 +260,58 @@ export default function TransactionDetailPage() {
               >
                 <CreditCard />
               </div>
-              <div className="flex-1">
-                <p className="font-medium text-gray-900">Payment</p>
-                <p
-                  className={`text-sm capitalize ${
-                    transaction.paymentStatus === 'completed'
-                      ? 'text-green-600'
-                      : 'text-gray-600'
-                  }`}
-                >
+              <div
+                className={`flex flex-col items-center ${
+                  transaction.paymentStatus === 'completed'
+                    ? 'text-green-600'
+                    : 'text-gray-400'
+                }`}>
+                <p className="font-medium">Payment</p>
+                <p className='text-xs capitalize'>
                   {transaction.paymentStatus}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            {/* Escrow Status */}
+            <div className="flex flex-col items-center gap-3">
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                  transaction.escrowStatus === 'held' || transaction.escrowStatus === 'released'
+                  transaction.escrowStatus === 'held'
                     ? 'bg-blue-100 text-blue-600'
+                    : transaction.escrowStatus === 'released'
+                    ? 'bg-green-100 text-green-600'
+                    : transaction.escrowStatus === 'refunded'
+                    ? 'bg-red-100 text-red-600'
                     : 'bg-gray-100 text-gray-400'
                 }`}
               >
                 <LockKeyhole />
               </div>
-              <div className="flex-1">
-                <p className="font-medium text-gray-900">Escrow</p>
-                <p
-                  className={`text-sm capitalize ${
-                    transaction.escrowStatus === 'held' || transaction.escrowStatus === 'released'
-                      ? 'text-blue-600'
-                      : 'text-gray-600'
-                  }`}
-                >
+              <div
+                className={`flex flex-col items-center ${
+                  transaction.escrowStatus === 'held'
+                    ? 'text-blue-600'
+                    : transaction.escrowStatus === 'released'
+                    ? 'text-green-600'
+                    : transaction.escrowStatus === 'refunded'
+                    ? 'text-red-600'
+                    : 'text-gray-400'
+                }`}>
+                <p className="font-medium">Escrow</p>
+                <p className='text-xs capitalize'>
                   {transaction.escrowStatus}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            {/* Deivery Status */}
+            <div className="flex flex-col items-center gap-3">
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                  transaction.deliveryStatus === 'shipped' ||
                   transaction.deliveryStatus === 'delivered'
+                    ? 'bg-green-100 text-green-600'
+                    : transaction.deliveryStatus === 'shipped'
                     ? 'bg-purple-100 text-purple-600'
                     : transaction.deliveryStatus === 'disputed'
                     ? 'bg-red-100 text-red-600'
@@ -300,26 +320,21 @@ export default function TransactionDetailPage() {
               >
                 <Truck />
               </div>
-              <div className="flex-1">
-                <p className="font-medium text-gray-900">Delivery</p>
-                <p
-                  className={`text-sm capitalize ${
-                    transaction.deliveryStatus === 'delivered'
-                      ? 'text-green-600'
-                      : transaction.deliveryStatus === 'shipped'
-                      ? 'text-purple-600'
-                      : transaction.deliveryStatus === 'disputed'
-                      ? 'text-red-600'
-                      : 'text-gray-600'
-                  }`}
-                >
-                  {transaction.deliveryStatus}
-                </p>
-                {transaction.trackingNumber && (
-                  <p className="text-xs text-gray-500 mt-1">
-                    Tracking: {transaction.trackingNumber}
-                  </p>
-                )}
+              <div
+                className={`flex flex-col items-center ${
+                  transaction.deliveryStatus === 'delivered'
+                    ? 'text-green-600'
+                    : transaction.deliveryStatus === 'shipped'
+                    ? 'text-purple-600'
+                    : transaction.deliveryStatus === 'disputed'
+                    ? 'text-red-600'
+                    : 'text-gray-400'
+                }`}
+              >
+                <p className="font-medium">Delivery</p>
+                <div className='flex items-center '>
+                  <p className='text-xs capitalize'>{transaction.deliveryStatus}</p>
+                </div>
               </div>
             </div>
           </div>
