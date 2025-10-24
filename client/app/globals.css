@@ -25,6 +25,10 @@ body {
   font-family: Outfit, Helvetica, sans-serif;
 }
 
+.adminStats {
+  @apply bg-gray-500/20 border border-gray-400/20 rounded-lg shadow-md p-4;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

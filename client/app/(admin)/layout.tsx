@@ -1,5 +1,6 @@
 import ProtectedRoute from '@/components/layout/ProtectedRoute';
 import BreadCrumb from '@/components/ui/BreadCrumb';
+import { Shield } from 'lucide-react';
 
 export default function AdminLayout({
   children,
@@ -14,8 +15,9 @@ export default function AdminLayout({
           <div className="max-w-7xl mx-auto px-4 py-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-6">
-                <a href="/admin" className="text-xl font-bold">
-                  🛡️ Admin Panel
+                <a href="/admin" className="flex items-center gap-2 text-xl font-bold">
+                  <Shield className="w-6 h-6" />
+                  Admin Panel
                 </a>
                 <div className="hidden md:flex gap-4">
                   <a href="/admin/users" className="hover:text-purple-200 transition">

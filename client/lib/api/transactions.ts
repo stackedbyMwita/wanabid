@@ -22,8 +22,16 @@ export const transactionsAPI = {
     return response.data;
   },
 
-  confirmDelivery: async (transactionId: string): Promise<Transaction> => {
-    const response = await apiClient.post(`/transactions/${transactionId}/confirm-delivery`);
+  confirmDelivery: async (
+    transactionId: string,
+    trackingCode?: string
+  ): Promise<Transaction> => {
+    const response = await apiClient.post(
+      `/transactions/${transactionId}/confirm-delivery`,
+      {
+        trackingCode,
+      }
+    );
     return response.data;
   },
 

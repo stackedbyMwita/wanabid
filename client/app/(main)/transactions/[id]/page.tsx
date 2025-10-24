@@ -87,7 +87,7 @@ export default function TransactionDetailPage() {
     if (!transaction) return;
     setActionLoading(true);
     try {
-      await transactionsAPI.confirmDelivery(transaction._id);
+      await transactionsAPI.confirmDelivery(transaction._id), trackingCode;
       toast.success('Delivery confirmed! Funds released to seller.');
       loadTransaction();
     } catch (error: any) {
@@ -473,7 +473,7 @@ export default function TransactionDetailPage() {
                       onChange={(e) => setDisputeReason(e.target.value)}
                       placeholder="Describe the issue..."
                       rows={4}
-                      className="w-full px-4 py-2 border border-red-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent mb-3"
+                      className="w-full px-4 text-gray-600 py-2 border border-red-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent mb-3"
                     />
                     <div className="flex gap-2">
                       <Button
@@ -485,7 +485,7 @@ export default function TransactionDetailPage() {
                         Submit Dispute
                       </Button>
                       <Button
-                        variant="outline"
+                        variant="secondary"
                         className="flex-1"
                         onClick={() => setShowDispute(false)}
                       >

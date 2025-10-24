@@ -7,6 +7,16 @@ import { formatPrice, formatDate } from '@/lib/utils';
 import Button from '@/components/ui/Button';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import {
+  AlertTriangle,
+  CheckCircle,
+  Package,
+  User,
+  Mail,
+  DollarSign,
+  Eye,
+  Clock,
+} from 'lucide-react';
 
 export default function AdminDisputesPage() {
   const [disputes, setDisputes] = useState<Transaction[]>([]);
@@ -70,7 +80,7 @@ export default function AdminDisputesPage() {
 
       {disputes.length === 0 ? (
         <div className="bg-white rounded-lg shadow-md p-12 text-center">
-          <div className="text-6xl mb-4">✅</div>
+          <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
           <h3 className="text-xl font-bold text-gray-900 mb-2">No Pending Disputes</h3>
           <p className="text-gray-600">All transactions are running smoothly!</p>
         </div>

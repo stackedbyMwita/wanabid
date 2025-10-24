@@ -8,6 +8,7 @@ export interface User {
   userType: 'seller' | 'buyer' | 'admin';
   rating?: number;
   totalTransactions?: number;
+  createdAt?: string;
   isVerified: boolean;
 }
 

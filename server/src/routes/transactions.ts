@@ -174,9 +174,17 @@ router.post(
 // Buyer confirms delivery
 router.post(
   '/:transactionId/confirm-delivery',
-  auth,
+  [
+    auth,
+    body('trackingCode').optional().isString().trim(),  // Changed from trackingNumber
+  ],
   async (req: AuthRequest, res: Response) => {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
       const transaction = await Transaction.findById(req.params.transactionId);
 
       if (!transaction) {
@@ -188,17 +196,37 @@ router.post(
         return res.status(403).json({ message: 'Only buyer can confirm delivery' });
       }
 
-      // Prevent confirming if already delivered
-      if (transaction.deliveryStatus === 'delivered') {
-        return res.status(400).json({ message: 'Delivery already confirmed' });
-      }
-      
-      // Require item to be shipped before confirming delivery
       if (transaction.deliveryStatus !== 'shipped') {
         return res.status(400).json({ message: 'Item must be shipped first' });
       }
 
-      
+      if (transaction.deliveryStatus === 'delivered') {
+        return res.status(400).json({ message: 'Delivery already confirmed' });
+      }
+
+      // Validate tracking code if seller provided one
+      if (transaction.trackingCode) {
+        const { trackingCode } = req.body;  // Changed from trackingCode
+
+        if (!trackingCode) {
+          return res.status(400).json({ 
+            message: 'Tracking code is required to confirm delivery',
+            requiresTracking: true 
+          });
+        }
+
+        // Case-insensitive comparison, trimmed
+        const providedTracking = trackingCode.trim().toLowerCase();
+        const actualTracking = transaction.trackingCode.trim().toLowerCase();
+
+        if (providedTracking !== actualTracking) {
+          return res.status(400).json({ 
+            message: 'Tracking code does not match. Please check the package label.',
+            invalidTracking: true 
+          });
+        }
+      }
+
       // Mark as delivered and release escrow
       transaction.deliveryStatus = 'delivered';
       transaction.escrowStatus = 'released';
@@ -222,9 +250,10 @@ router.post(
 
       res.json({
         message: 'Delivery confirmed. Funds released to seller.',
-        transaction
+        transaction,
       });
     } catch (error) {
+      console.error('Confirm delivery error:', error);
       res.status(500).json({ message: 'Server error' });
     }
   }
