@@ -200,10 +200,6 @@ router.post(
         return res.status(400).json({ message: 'Item must be shipped first' });
       }
 
-      if (transaction.deliveryStatus === 'delivered') {
-        return res.status(400).json({ message: 'Delivery already confirmed' });
-      }
-
       // Validate tracking code if seller provided one
       if (transaction.trackingCode) {
         const { trackingCode } = req.body;  // Changed from trackingCode
